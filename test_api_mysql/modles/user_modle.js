@@ -1,5 +1,5 @@
 import { resolve } from "path";
-import dataBase from "../config/db.js";
+import dataBase from "../db.js";
 import { error } from "console";
 
 class UserModle {
@@ -7,15 +7,17 @@ class UserModle {
     // جلب جميع المستخدمين
     static async getUsers() {
        
-            return new Promise(resolve => { // Use the correct resolve function
-                dataBase.query("select * from infousers",[], (error, result) => {
-                    if (!error) {
-                        resolve(result);
-                    }
-                });
+        return new Promise((resolve , reject) => { // Use the correct resolve function
+            dataBase.query("select * from infousers",[], (error, result) => {
+                if (!error) {
+                    resolve(result);
+                }else {
+                    reject(error); // Reject the promise in case of error
+                }
             });
-        
-    }
+        });
+    
+}
 
     static async addNewUser(name, email, eage, address) {
         return new Promise(resolve => {
